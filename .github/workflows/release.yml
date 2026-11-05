@@ -42,17 +42,27 @@ jobs:
 
       - name: Set up Android SDK & NDK
         uses: android-actions/setup-android@v3
+        id: setup-android
         with:
           api-level: 34
           build-tools-version: 34.0.0
           ndk-version: 25.2.9519653
           include-ndk: true
 
+      - name: Configure Android NDK Home
+        run: |
+          echo "ANDROID_NDK_HOME=${{ steps.setup-android.outputs.ndk-path }}" >> $GITHUB_ENV
+          echo "ANDROID_NDK_HOME is ${{ steps.setup-android.outputs.ndk-path }}"
+
+      - name: Add Rust Targets Explicitly
+        run: |
+          rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
+
       - name: Install cargo-apk
         run: cargo install cargo-apk
 
       - name: Build Release APK
-        run: cargo apk build --release --lib --manifest-path app/Cargo.toml
+        run: cargo apk build --release --manifest-path app/Cargo.toml
 
       - name: Upload Release Asset & Create GitHub Release
         uses: softprops/action-gh-release@v2
