@@ -1,0 +1,9 @@
+/target
+/app/target
+/extracted_apk
+*.apk
+.claude/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

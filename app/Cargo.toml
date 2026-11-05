@@ -1,0 +1,31 @@
+[package]
+name = "healthifyme_mobile"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+ureq = { version = "2.9", features = ["json"] }
+android-activity = { version = "0.5", optional = true }
+log = "0.4"
+env_logger = "0.10"
+
+[lib]
+name = "healthifyme_mobile"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "healthifyme_cli"
+path = "src/main.rs"
+
+[package.metadata.android]
+package = "com.healthifyme.mobile"
+min_sdk = 24
+target_sdk = 34
+assets = "assets"
+permissions = ["INTERNET", "ACCESS_NETWORK_STATE"]
+activity_name = "android.app.NativeActivity"
+metadata = [
+    { name = "android.app.lib_name", value = "healthifyme_mobile" }
+]

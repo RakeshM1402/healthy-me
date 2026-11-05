@@ -1,0 +1,41 @@
+name: Release Android APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-release:
+    name: Build Android APK & Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android, armv7-linux-androideabi, x86_64-linux-android, i686-linux-android
+
+      - name: Set up Android SDK & NDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 34
+          build-tools-version: 34.0.0
+          ndk-version: 25.2.9519653
+          include-ndk: true
+
+      - name: Install cargo-apk
+        run: cargo install cargo-apk
+
+      - name: Build Release APK
+        run: cargo apk build --release --lib --manifest-path app/Cargo.toml
+
+      - name: Upload Release Asset & Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/target/release/apk/healthifyme_mobile.apk
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
