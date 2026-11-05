@@ -28,6 +28,10 @@ impl AppUpdater {
         }
     }
 
+    pub fn default_repo() -> Self {
+        Self::new("0.1.0", "RakeshM1402", "healthy-me")
+    }
+
     pub fn check_latest_release(&self) -> Result<Option<(String, String)>, Box<dyn std::error::Error>> {
         let url = format!(
             "https://api.github.com/repos/{}/{}/releases/latest",

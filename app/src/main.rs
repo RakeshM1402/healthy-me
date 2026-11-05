@@ -1,7 +1,16 @@
-use healthifyme_mobile::{MobileAppState, get_workout_schemas};
+use healthifyme_mobile::{MobileAppState, get_workout_schemas, AppUpdater};
 
 fn main() {
     println!("=== HealthifyMe Mobile App (Rust Native Core) ===");
+
+    // Initialize In-App Update Checker pointing to RakeshM1402/healthy-me
+    let updater = AppUpdater::default_repo();
+    println!("Checking for updates from https://github.com/{}/{}...", updater.repo_owner, updater.repo_name);
+    match updater.check_latest_release() {
+        Ok(Some((tag, url))) => println!("-> New update available: {} ({})", tag, url),
+        Ok(None) => println!("-> App is up to date (version {})", updater.current_version),
+        Err(e) => println!("-> Update check skipped / offline ({})", e),
+    }
 
     let mut state = MobileAppState::new();
     println!("Initial Daily Calorie Target (TDEE): {:.1} kcal", state.daily_calorie_target);
