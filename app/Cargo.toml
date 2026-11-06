@@ -15,10 +15,6 @@ env_logger = "0.10"
 name = "healthifyme_mobile"
 crate-type = ["cdylib", "rlib"]
 
-[[bin]]
-name = "healthifyme_cli"
-path = "src/main.rs"
-
 [package.metadata.android]
 package = "com.healthifyme.mobile"
 min_sdk = 24
