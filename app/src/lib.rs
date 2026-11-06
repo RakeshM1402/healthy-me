@@ -141,20 +141,20 @@ pub extern "C" fn android_main(app: android_activity::AndroidApp) {
     loop {
         app.poll_events(Some(std::time::Duration::from_millis(16)), |event| {
             match event {
-                android_activity::Event::InitWindow { .. } => {
+                android_activity::PollEvent::Main(android_activity::MainEvent::InitWindow { .. }) => {
                     log::info!("Android window initialized");
                     if let Some(window) = app.native_window() {
                         unsafe {
-                            gles_render::init_egl_context(window.ptr().as_ptr());
+                            gles_render::init_egl_context(window.ptr().as_ptr() as *mut std::ffi::c_void);
                         }
                         graphics_initialized = true;
                     }
                 }
-                android_activity::Event::TermWindow { .. } => {
+                android_activity::PollEvent::Main(android_activity::MainEvent::TermWindow { .. }) => {
                     log::info!("Android window terminated");
                     graphics_initialized = false;
                 }
-                android_activity::Event::RedrawNeeded { .. } => {
+                android_activity::PollEvent::Main(android_activity::MainEvent::RedrawNeeded { .. }) => {
                     if graphics_initialized {
                         unsafe {
                             gles_render::render_frame();
