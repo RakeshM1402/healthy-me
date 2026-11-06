@@ -150,7 +150,7 @@ pub extern "C" fn android_main(app: android_activity::AndroidApp) {
                         graphics_initialized = true;
                     }
                 }
-                android_activity::PollEvent::Main(android_activity::MainEvent::TermWindow { .. }) => {
+                android_activity::PollEvent::Main(android_activity::MainEvent::DestroyWindow { .. }) => {
                     log::info!("Android window terminated");
                     graphics_initialized = false;
                 }
