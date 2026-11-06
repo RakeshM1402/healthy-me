@@ -29,3 +29,7 @@ activity_name = "android.app.NativeActivity"
 metadata = [
     { name = "android.app.lib_name", value = "healthifyme_mobile" }
 ]
+
+[package.metadata.android.signing.release]
+path = "release.keystore"
+keystore_password = "androidreleasepassword"

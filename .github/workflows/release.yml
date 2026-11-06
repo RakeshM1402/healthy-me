@@ -62,6 +62,9 @@ jobs:
       - name: Install cargo-apk
         run: cargo install cargo-apk
 
+      - name: Generate Release Keystore
+        run: keytool -genkey -v -keystore app/release.keystore -alias release -keyalg RSA -keysize 2048 -validity 10000 -storepass androidreleasepassword -keypass androidreleasepassword -dname "CN=HealthyMe, OU=Dev, O=HealthyMe, L=City, S=State, C=US"
+
       - name: Build Release APK
         run: cargo apk build --release --manifest-path app/Cargo.toml
 

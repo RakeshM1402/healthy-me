@@ -2,6 +2,7 @@
 /app/target
 /extracted_apk
 *.apk
+app/release.keystore
 .claude/
 .DS_Store
 Thumbs.db
